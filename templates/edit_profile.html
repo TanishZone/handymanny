@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>Edit Profile</h1>
+
+{% if service %}
+<div class="card">
+
+<form method="POST">
+
+<p><b>Name:</b> {{ service[2] }} (Cannot change)</p>
+<p><b>Gender:</b> {{ service[4] }} (Cannot change)</p>
+<p><b>Age:</b> {{ service[6] }} (Cannot change)</p>
+
+<input type="text" name="phone" value="{{ service[3] }}" required>
+<input type="text" name="address" value="{{ service[7] }}" required>
+
+<button type="submit">Update</button>
+
+</form>
+
+</div>
+{% else %}
+<p style="text-align:center;">No service found</p>
+{% endif %}
+
+<p style="color:red; text-align:center;">
+* To change Name, Age, or Gender, contact support.
+</p>
+
+<div style="text-align:center;">
+<a href="/profile"><button>Back</button></a>
+</div>
+
+</div>
+
+</body>
+</html>

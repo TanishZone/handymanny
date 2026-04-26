@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>Handy Manny</h2>
+
+        <a href="/inbox">📩 Inbox ({{ msg_count }})</a>
+        <a href="/requests">📥 Requests</a>
+        <a href="/connections">🤝 Connections</a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+
+        <!-- TOP -->
+        <div class="topbar">
+            <h3>Welcome, {{ username }}</h3>
+            <a href="/profile"><button>Profile</button></a>
+        </div>
+
+        <!-- HERO -->
+        <div class="hero">
+            <h1>Find Trusted Local Professionals</h1>
+            <p>Hire skilled workers or offer your services easily.</p>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+            <a href="/hire"><button class="big-btn">Hire a Worker</button></a>
+            <a href="/offer"><button class="big-btn">Offer Service</button></a>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="card">
+                <h2>500+</h2>
+                <p>Trusted Users</p>
+            </div>
+            <div class="card">
+                <h2>120+</h2>
+                <p>Daily Visits</p>
+            </div>
+            <div class="card">
+                <h2>80+</h2>
+                <p>Daily Hirings</p>
+            </div>
+            <div class="card">
+                <h2>300+</h2>
+                <p>Professional Workers</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

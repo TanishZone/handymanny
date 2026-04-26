@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connections</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Your Connections</h1>
+
+    {% if data %}
+        {% for c in data %}
+        <div class="card">
+
+            <p><b>Client:</b> {{ c.client }}</p>
+            <p><b>Worker:</b> {{ c.worker }}</p>
+            <p><b>Skill:</b> {{ c.skill }}</p>      
+            
+           {% if c.completed == 1 %}
+    
+                <p style="color:green;"><b>✔ Job Completed</b></p>
+
+                {% if not c.reviewed and c.client_email == session['user'] %}
+                <form action="/review/{{ c.id }}" method="POST">
+                    <select name="rating" required>
+                        <option value="">Rate</option>
+                        <option value="1">1 ⭐</option>
+                        <option value="2">2 ⭐</option>
+                        <option value="3">3 ⭐</option>
+                        <option value="4">4 ⭐</option>
+                        <option value="5">5 ⭐</option>
+                    </select>
+
+                    <input type="text" name="feedback" placeholder="Write feedback">
+
+                    <button type="submit">Submit Review</button>
+                </form>
+                {% endif %}
+
+            {% else %}
+
+                <div class="btn-group">
+                    <a href="/complete/{{ c.id }}">
+                        <button class="done">Done</button>
+                    </a>
+
+                    <a href="/cancel/{{ c.id }}">
+                        <button class="reject">Cancel</button>
+                    </a>
+                </div>
+
+            {% endif %}
+
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">No active connections</p>
+    {% endif %}
+
+    <div style="text-align:center;">
+        <a href="/home"><button>Back</button></a>
+    </div>
+
+</div>
+
+</body>
+</html>

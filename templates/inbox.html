@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inbox</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="chat-container">
+
+    <!-- LEFT PANEL -->
+    <div class="chat-list">
+        <h2>Chats</h2>
+
+        {% if users %}
+            {% for user in users %}
+            <div class="chat-user">
+                <a href="/chat/{{ user.email }}">
+                    <p>{{ user.name }}</p>
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center;">No conversations yet</p>
+        {% endif %}
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="chat-placeholder">
+        <h2>Select a chat</h2>
+        <p>Start conversation by selecting a user</p>
+    </div>
+
+</div>
+
+<div style="position:fixed; bottom:20px; left:20px;">
+    <a href="/home"><button>Back</button></a>
+</div>
+
+</body>
+</html>

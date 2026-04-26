@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Profile</h1>
+
+    <div class="card">
+        <h2>{{ username }}</h2>
+
+        <a href="/edit_profile">
+            <button>Edit Profile</button>
+        </a>
+
+        <p><b>Total Services:</b> {{ services|length }}</p>
+    </div>
+
+    <h3>Your Services</h3>
+
+    {% if services %}
+
+        {% for service in services %}
+        <div class="card">
+
+            <h4>{{ service[2] }}</h4>
+
+            <p><b>Skill:</b> {{ service[8] }}</p>
+            <p><b>Experience:</b> {{ service[9] }}</p>
+            <p>{{ service[10] }}</p>
+
+            <a href="/edit_service/{{ service[0] }}">
+                <button>Edit</button>
+            </a>
+
+            <a href="/delete_service/{{ service[0] }}">
+                <button class="reject">Delete Service</button>
+            </a>
+
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <p style="text-align:center;">No services added yet.</p>
+    {% endif %}
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="/home"><button>Back</button></a>
+    </div>
+
+</div>
+
+</body>
+</html>

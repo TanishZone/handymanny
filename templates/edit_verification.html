@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Verification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h2>Update Verification Details</h2>
+
+<div class="card">
+<form method="POST">
+
+    <label>Certificate ID:</label>
+    <input type="text" name="cert_id" value="{{ service[13] }}">
+
+    <label>Certificate Name:</label>
+    <input type="text" name="cert_name" value="{{ service[14] }}">
+
+    <label>Issued By:</label>
+    <input type="text" name="cert_org" value="{{ service[15] }}">
+
+    <label>Certificate Link:</label>
+    <input type="text" name="cert_link" value="{{ service[16] }}">
+
+    <br><br>
+    <button type="submit">Update</button>
+
+</form>
+</div>
+
+<a href="/profile"><button>Back</button></a>
+
+</div>
+
+</body>
+</html>

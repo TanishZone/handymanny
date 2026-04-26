@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hire Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Hire Requests</h1>
+
+    {% if requests %}
+        {% for r in requests %}
+        <div class="card">
+
+            <p><b>{{ r[2] }}</b> wants to hire you</p>
+
+            <div class="btn-group">
+                <a href="/accept/{{ r[0] }}">
+                    <button class="accept">Accept</button>
+                </a>
+
+                <a href="/reject/{{ r[0] }}">
+                    <button class="reject">Reject</button>
+                </a>
+            </div>
+
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center;">No pending requests</p>
+    {% endif %}
+
+    <div style="text-align:center;">
+        <a href="/home"><button>Back</button></a>
+    </div>
+
+</div>
+
+</body>
+</html>

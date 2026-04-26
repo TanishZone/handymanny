@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="chat-container">
+
+    <!-- LEFT -->
+    <div class="chat-list">
+        <h3>Chats</h3>
+
+        {% for u in users %}
+        <div class="chat-user">
+            <a href="/chat/{{ u.email }}">{{ u.name }}</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- RIGHT -->
+    <div class="chat-box">
+
+        <div class="chat-header">
+            <h3>{{ receiver }}</h3>
+            <button onclick="toggleInfo()">View Info</button>
+        </div>
+
+        <!-- WORKER INFO -->
+        <div id="worker-info" style="display:none;" class="card">
+            <p><b>Skill:</b> {{ worker.skill }}</p>
+            <p><b>Experience:</b> {{ worker.experience }}</p>
+        </div>
+
+        <!-- HIRE BUTTON -->
+        {% if is_client and service_id %}
+        <form action="/hire_request/{{ service_id }}" method="POST">
+            <button>Hire</button>
+        </form>
+        {% endif %}
+
+        <!-- MESSAGES -->
+        <div id="messages" class="chat-messages"></div>
+        <!-- SEND -->
+        <form onsubmit="sendMessage(event)">
+            <input type="text" id="message" placeholder="Type message..." required>
+            <button>Send</button>
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+let receiver = "{{ receiver }}";
+
+function toggleInfo() {
+    let box = document.getElementById("worker-info");
+    box.style.display = box.style.display === "none" ? "block" : "none";
+}
+
+let lastMessageId = 0;
+
+function loadMessages() {
+    fetch(`/get_messages/${receiver}`)
+    .then(res => res.json())
+    .then(data => {
+
+        let box = document.getElementById("messages");
+
+        data.chats.forEach(chat => {
+
+            if (chat.id <= lastMessageId) return;  // ✅ NO RELOAD
+
+            let msg = document.createElement("div");
+
+            if (chat.type === "hire") {
+                msg.classList.add("hire-box");
+
+                if (chat.is_receiver) {
+                    msg.innerHTML = `
+                        📩 Hire Request<br>
+                        <button onclick="location.href='/accept/${chat.id}'">Accept</button>
+                        <button onclick="location.href='/reject/${chat.id}'">Reject</button>
+                    `;
+                } else {
+                    msg.innerHTML = `📩 Hire Request Sent`;
+                }
+
+            } else {
+
+                msg.classList.add("message-box");
+
+                if (chat.sender.trim() === "{{ session['user'] }}".trim()) {
+                    msg.classList.add("message-right");
+                } else {
+                    msg.classList.add("message-left");
+                }
+
+                msg.innerHTML = `
+                    <span>${chat.message}</span>
+                    <div class="msg-info">${chat.time}</div>
+                `;
+            }
+
+            box.appendChild(msg);
+            lastMessageId = chat.id;
+        });
+
+        box.scrollTop = box.scrollHeight;
+    });
+}
+
+function sendMessage(e) {
+    e.preventDefault();
+
+    let msg = document.getElementById("message").value;
+
+    fetch(`/chat/${receiver}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "message=" + encodeURIComponent(msg)
+    })
+    .then(() => {
+        document.getElementById("message").value = "";
+        loadMessages();
+    });
+}
+
+setInterval(loadMessages, 2000);
+loadMessages();
+</script>
+
+</body>
+</html>

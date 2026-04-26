@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Service</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>Edit Your Service</h1>
+
+<div class="card">
+<form method="POST">
+
+    <input type="text" name="full_name" value="{{ service[2] }}" required>
+
+    <input type="text" name="phone" value="{{ service[3] }}" required>
+
+    <select name="gender" required>
+        <option {% if service[4]=='Male' %}selected{% endif %}>Male</option>
+        <option {% if service[4]=='Female' %}selected{% endif %}>Female</option>
+    </select>
+
+    <input type="text" name="address" value="{{ service[7] }}" required>
+
+    <select name="skill" required>
+        <option>{{ service[8] }}</option>
+        <option>Plumber</option>
+        <option>Electrician</option>
+        <option>Carpenter</option>
+        <option>Lab Technician</option>
+    </select>
+
+    <select name="experience" required>
+        <option>{{ service[9] }}</option>
+        <option>0</option>
+        <option>0-1</option>
+        <option>2-3</option>
+        <option>3-5</option>
+        <option>5-10</option>
+        <option>10+</option>
+    </select>
+
+    <textarea name="about" required>{{ service[10] }}</textarea>
+
+    <button type="submit">Update Service</button>
+
+</form>
+</div>
+
+<a href="/profile"><button>Back</button></a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-card">
+        <h2>Signup</h2>
+
+        <form action="/signup_user" method="POST">
+            <input type="text" name="full_name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Enter Gmail" required>
+            <input type="password" name="password" placeholder="Create Password" required>
+
+            <button type="submit">Signup</button>
+        </form>
+
+        <p>Already have account? <a href="/">Login</a></p>
+    </div>
+
+</div>
+
+</body>
+</html>

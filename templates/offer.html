@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Offer Service</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>Offer Your Service</h1>
+
+<div class="card">
+<form action="/add_service" method="POST">
+
+<input type="text" name="full_name" placeholder="Full Name" required>
+
+<input type="text" name="phone" placeholder="Phone Number" required>
+
+<select name="gender" required>
+    <option value="">Select Gender</option>
+    <option>Male</option>
+    <option>Female</option>
+</select>
+
+<label>Date of Birth</label>
+<input type="date" name="dob" id="dob" required>
+
+<input type="number" name="age" id="age" placeholder="Age" readonly>
+
+<input type="text" name="address" placeholder="Address (City, State, Pincode)" required>
+
+<select name="skill" required>
+    <option value="">Select Skill</option>
+    {% for skill in skills %}
+        <option value="{{ skill }}">{{ skill }}</option>
+    {% endfor %}
+</select>
+
+<select name="experience" required>
+    <option value="">Experience</option>
+    <option>0</option>
+    <option>0-1</option>
+    <option>2-3</option>
+    <option>3-5</option>
+    <option>5-10</option>
+    <option>10+</option>
+</select>
+
+<textarea name="about" rows="4" maxlength="300" placeholder="About yourself (max 50 words)" required></textarea>
+
+<label>Do you have certificate?</label>
+<select id="cert_select" name="has_cert">
+    <option>No</option>
+    <option>Yes</option>
+</select>
+
+<div id="cert_fields" style="display:none;">
+    <input type="text" name="cert_id" placeholder="Certificate ID">
+    <input type="text" name="cert_name" placeholder="Certificate Name">
+    <input type="text" name="cert_org" placeholder="Issued By">
+    <input type="text" name="cert_link" placeholder="Certificate Link">
+</div>
+
+<button type="submit">Submit Service</button>
+
+</form>
+</div>
+
+<div style="text-align:center;">
+    <a href="/home"><button>Back</button></a>
+</div>
+
+</div>
+
+<script>
+document.getElementById("cert_select").addEventListener("change", function() {
+    let fields = document.getElementById("cert_fields");
+    let inputs = fields.querySelectorAll("input");
+
+    if (this.value === "Yes") {
+        fields.style.display = "block";
+        inputs.forEach(i => i.required = true);
+    } else {
+        fields.style.display = "none";
+        inputs.forEach(i => i.required = false);
+    }
+});
+
+document.getElementById("dob").addEventListener("change", function() {
+    let dob = new Date(this.value);
+    let today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    document.getElementById("age").value = age;
+});
+document.querySelector("form").addEventListener("submit", function(e) {
+    let selected = document.getElementById("cert_select").value;
+
+    if (selected === "Yes") {
+        let id = document.querySelector("[name='cert_id']").value.trim();
+        let name = document.querySelector("[name='cert_name']").value.trim();
+        let org = document.querySelector("[name='cert_org']").value.trim();
+        let link = document.querySelector("[name='cert_link']").value.trim();
+
+        if (!id || !name || !org || !link) {
+            alert("⚠️ Please fill ALL certificate details");
+            e.preventDefault();
+        }
+    }
+});
+</script>
+
+</body>
+</html>

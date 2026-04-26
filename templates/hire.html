@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hire Worker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>Available Workers</h1>
+
+<div class="card">
+<form method="POST">
+    <select name="search">
+        <option value="">Select Skill</option>
+        {% for skill in skills %}
+            <option value="{{ skill }}">{{ skill }}</option>
+        {% endfor %}
+    </select>
+    <select name="exp_filter">
+        <option value="">Experience</option>
+        <option>0</option>
+        <option>0-1</option>
+        <option>2-3</option>
+        <option>3-5</option>
+        <option>5-10</option>
+        <option>10+</option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+</div>
+
+{% if services %}
+
+{% for service in services %}
+<div class="card worker-card">
+
+    <!-- ROW 1 -->
+    <div class="row" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+
+        <div style="display:flex; align-items:center; gap:8px;">
+            <b class="highlight">{{ service.skill }} : </b>
+            <b class="highlight">{{ service.name }}</b>
+
+            {% if service.verified == 1 %}
+                <span style="
+                    background:#2ecc71;
+                    color:white;
+                    padding:3px 8px;
+                    border-radius:12px;
+                    font-size:12px;
+                    font-weight:500;
+                ">
+                    ✔ Verified
+                </span>
+            {% endif %}
+        </div>
+
+        <span>Age: {{ service.age }}</span>
+        <span>Exp: {{ service.experience }}</span>
+        <span>{{ service.gender }}</span>
+
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="row" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:8px;">
+        <span>{{ service.address }}</span>
+        <span>Popularity: {{ service.popularity }}</span>
+        <span>Tasks: {{ service.tasks }}</span>
+        <span>⭐ {{ service.rating }}</span>
+    </div>
+
+    <!-- ROW 3 -->
+    <div class="row" style="display:flex; justify-content:space-between; margin-top:10px;">
+        <a href="/chat/{{ service.email }}">
+            <button>Message</button>
+        </a>
+
+        <button onclick="toggleDetails('{{ service.id }}')">
+            Expand
+        </button>
+    </div>
+
+    <!-- EXPAND SECTION -->
+    <div id="detail-{{ service.id }}" style="display:none; margin-top:10px;">
+        <p>{{ service.about }}</p>
+        <p>Email: {{ service.email }}</p>
+    </div>
+
+</div>
+{% endfor %}
+
+{% else %}
+<p style="text-align:center;">No workers available</p>
+{% endif %}
+
+<div style="text-align:center;">
+    <a href="/home"><button>Back</button></a>
+</div>
+
+</div>
+
+<script>
+function toggleDetails(id) {
+    let el = document.getElementById("detail-" + id);
+    el.style.display = el.style.display === "none" ? "block" : "none";
+}
+</script>
+
+</body>
+</html>
